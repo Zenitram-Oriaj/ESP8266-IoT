@@ -42,7 +42,7 @@ String      uuid = "";
 //
 
 void setDevice(){
-  sensor.begin();
+  
 }
 
 String build(){
@@ -64,6 +64,7 @@ String input() {
   if (isnan(f)) {
     err = true;
     Serial.println("Failed to read from sensor!");
+    Serial.println(f);
     return "&err=Failed To Read From Sensor";
   }
   err = false;
@@ -90,7 +91,7 @@ void connectToAp(){
   int md = 4;
   if(dbg){
     Serial.println();
-    Serial.print("Atempting Connection to ");
+    Serial.print("Attempting Connection to ");
     Serial.println(ssid);  
   }
   
@@ -184,7 +185,8 @@ void snd(){
 
 void setup(){
   Serial.begin(115200);
-
+  dbg = true;
+  
   pinMode(ledRED, OUTPUT);
   pinMode(ledGRN, OUTPUT);
 
@@ -197,10 +199,10 @@ void setup(){
   setLED(3);
   
   connectToAp();
-  setUuid();  
-  setDevice();
+  setUuid(); 
+  sensor.begin();
 
-  delay(2000);
+  delay(1000);
   snd();
 }
 
@@ -210,7 +212,6 @@ void loop() {
   
   if(cnt >= dly) {
     cnt = 0;
-    dbg = true;
     snd();
   }
   
